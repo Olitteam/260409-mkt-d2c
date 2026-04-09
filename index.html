@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D2C팀 주간 보고 — 2026.04.09</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --surface2: #f9f8f5;
+    --border: #e2e0d8;
+    --text: #1a1916;
+    --text-muted: #7a7870;
+    --text-light: #b0ada4;
+    --accent1: #2d5a8e;   /* CRM - 블루 */
+    --accent2: #5a7a3a;   /* UI/UX - 그린 */
+    --accent3: #8e5a2d;   /* PDP - 브라운 */
+    --accent4: #8e2d6b;   /* 가정의달 - 핑크 */
+    --accent5: #2d7a6b;   /* 바이럴 - 틸 */
+    --tag-bg: #f0ede6;
+    --positive: #3a7a3a;
+    --negative: #c0392b;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 13.5px;
+    line-height: 1.7;
+  }
+
+  /* ── HEADER ── */
+  .report-header {
+    background: var(--text);
+    color: #fff;
+    padding: 36px 48px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .report-header .brand { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 8px; }
+  .report-header h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+  .report-header .meta { text-align: right; font-size: 12px; color: #999; line-height: 1.9; }
+  .report-header .meta strong { color: #fff; }
+
+  /* ── NAV ── */
+  .toc {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px;
+    display: flex;
+    gap: 2px;
+    overflow-x: auto;
+  }
+  .toc a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .toc a:hover { color: var(--text); }
+  .toc a span.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+  /* ── MAIN ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 48px 80px; }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 52px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: #fff;
+    flex-shrink: 0;
+  }
+  .section-header h2 { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
+  .section-header .section-sub { font-size: 12px; color: var(--text-muted); margin-left: auto; }
+
+  /* ── KPI GRID ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .kpi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+  }
+  .kpi-card .kpi-label { font-size: 11px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.3px; margin-bottom: 6px; }
+  .kpi-card .kpi-value { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; font-family: 'DM Mono', monospace; }
+  .kpi-card .kpi-compare { font-size: 11px; margin-top: 4px; }
+  .kpi-card .up { color: var(--positive); }
+  .kpi-card .dn { color: var(--negative); }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; background: var(--surface); font-size: 12px; }
+  thead tr { background: var(--surface2); }
+  th {
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 11px;
+    letter-spacing: 0.2px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr.subtotal td { background: #f2f0ea; font-weight: 600; }
+  tr:hover td { background: #faf9f6; }
+  .num { font-family: 'DM Mono', monospace; font-size: 12px; text-align: right; }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-size: 10px;
+    font-weight: 600;
+  }
+  .badge-always { background: #e8f0fb; color: #2d5a8e; }
+  .badge-once { background: #fef3e2; color: #8e5a2d; }
+  .roas-high { color: #1a7a40; font-weight: 600; }
+  .roas-mid { color: var(--text); }
+  .roas-low { color: #c0392b; }
+
+  /* ── INSIGHT BOX ── */
+  .insight-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  .insight-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+  }
+  .insight-box .ibox-title { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+  .insight-box ul { list-style: none; }
+  .insight-box li { padding: 5px 0; font-size: 12.5px; border-bottom: 1px dashed var(--border); display: flex; gap: 8px; }
+  .insight-box li:last-child { border-bottom: none; }
+  .insight-box li::before { content: '•'; color: var(--text-light); flex-shrink: 0; margin-top: 1px; }
+
+  /* ── PLACEHOLDER SECTION ── */
+  .placeholder {
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 28px 24px;
+    color: var(--text-muted);
+    font-size: 12.5px;
+  }
+  .placeholder .ph-title { font-weight: 600; margin-bottom: 12px; font-size: 13px; color: var(--text); }
+  .placeholder .ph-field {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 1px dotted var(--border);
+    font-size: 12px;
+  }
+  .placeholder .ph-field:last-child { border-bottom: none; }
+  .placeholder .ph-field .ph-key { font-weight: 600; min-width: 120px; color: var(--text); }
+  .placeholder .ph-field .ph-val { color: var(--text-muted); font-style: italic; }
+
+  /* ── VIRAL ── */
+  .viral-block { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; margin-bottom: 16px; box-shadow: var(--shadow); }
+  .viral-block + .viral-block { }
+  .viral-block .vb-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .viral-block .vb-header h3 { font-size: 14px; font-weight: 700; }
+  .viral-block .vb-header .vb-badge { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 99px; }
+
+  .sub-block { background: var(--surface2); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; }
+  .sub-block .sb-title { font-size: 12.5px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .sb-title .sb-check { color: #3a7a3a; font-size: 13px; }
+
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item { display: flex; gap: 12px; position: relative; padding-bottom: 10px; }
+  .tl-item::before { content: ''; position: absolute; left: 5px; top: 16px; bottom: 0; width: 1px; background: var(--border); }
+  .tl-item:last-child::before { display: none; }
+  .tl-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--accent5); flex-shrink: 0; margin-top: 4px; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--accent5); }
+  .tl-date { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-muted); min-width: 90px; padding-top: 1px; }
+  .tl-label { font-size: 12.5px; padding-top: 1px; }
+
+  .influencer-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .inf-chip { background: #edf4ff; border: 1px solid #c5d8f5; border-radius: 6px; padding: 4px 10px; font-size: 11.5px; color: #2d5a8e; }
+  .inf-chip .note { color: #8aabda; font-size: 10.5px; margin-left: 4px; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .issue-list { list-style: none; }
+  .issue-list li { padding: 7px 0; font-size: 12.5px; border-bottom: 1px dashed var(--border); display: flex; gap: 8px; align-items: flex-start; }
+  .issue-list li:last-child { border-bottom: none; }
+  .issue-list li .issue-icon { flex-shrink: 0; margin-top: 1px; }
+  .issue-arrow { font-size: 11px; color: var(--text-light); }
+
+  .tag { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 10.5px; font-weight: 600; }
+  .tag-issue { background: #fde8e8; color: #c0392b; }
+  .tag-action { background: #e8f5e8; color: #2d7a3a; }
+  .tag-pending { background: #fff3e0; color: #8e5a2d; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .report-header { padding: 24px; flex-direction: column; align-items: flex-start; gap: 12px; }
+    .container { padding: 24px; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .insight-row { grid-template-columns: 1fr; }
+    .grid2 { grid-template-columns: 1fr; }
+    .toc { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="report-header">
+  <div>
+    <div class="brand">슬룸 · D2C팀</div>
+    <h1>주간 보고</h1>
+  </div>
+  <div class="meta">
+    <strong>2026년 4월 9일 (목)</strong><br>
+    기준일 · 작성자: ___
+  </div>
+</div>
+
+<!-- TOC -->
+<nav class="toc">
+  <a href="#crm"><span class="dot" style="background:#2d5a8e"></span>01 CRM</a>
+  <a href="#uiux"><span class="dot" style="background:#5a7a3a"></span>02 UI/UX</a>
+  <a href="#pdp"><span class="dot" style="background:#8e5a2d"></span>03 PDP</a>
+  <a href="#viral"><span class="dot" style="background:#2d7a6b"></span>04 바이럴</a>
+</nav>
+
+<div class="container">
+
+  <!-- ══════════════════════════════════════
+       01 CRM
+  ══════════════════════════════════════ -->
+  <section class="section" id="crm">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--accent1)">01</div>
+      <h2>CRM 캠페인 현황</h2>
+      <span class="section-sub">기준: 26년 4월 2주차 누적 (최종 업데이트 2026-04-09)</span>
+    </div>
+
+    <!-- ── 월별 흐름 ── -->
+    <div style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.4px;text-transform:uppercase;margin-bottom:10px">📈 월별 CRM 흐름 (25년 7월 → 26년 4월)</div>
+    <div class="table-wrap" style="margin-bottom:24px">
+      <table>
+        <thead>
+          <tr>
+            <th>지표</th>
+            <th style="text-align:right">7월</th>
+            <th style="text-align:right">8월</th>
+            <th style="text-align:right">9월</th>
+            <th style="text-align:right">10월</th>
+            <th style="text-align:right">11월</th>
+            <th style="text-align:right">12월</th>
+            <th style="text-align:right">1월</th>
+            <th style="text-align:right">2월</th>
+            <th style="text-align:right">3월</th>
+            <th style="text-align:right;color:var(--accent1);font-weight:700">4월 ★</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:600;color:var(--text-muted);font-size:11px">발송량</td>
+            <td class="num">876,454</td><td class="num">816,478</td><td class="num">2,124,232</td><td class="num">2,080,911</td>
+            <td class="num">1,926,826</td><td class="num">1,493,162</td><td class="num">1,091,264</td><td class="num">1,174,403</td>
+            <td class="num">712,208</td><td class="num" style="color:var(--accent1);font-weight:700">202,914</td>
+          </tr>
+          <tr style="background:#fafafa">
+            <td style="font-weight:600;color:var(--text-muted);font-size:11px">클릭율</td>
+            <td class="num">2.53%</td><td class="num">2.18%</td><td class="num">1.83%</td><td class="num">1.24%</td>
+            <td class="num">1.23%</td><td class="num">0.94%</td><td class="num">1.54%</td><td class="num">1.28%</td>
+            <td class="num">1.47%</td><td class="num" style="color:var(--accent1);font-weight:700">0.75%</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--text-muted);font-size:11px">전환율 (CVR)</td>
+            <td class="num">4.84%</td><td class="num">5.96%</td><td class="num">4.78%</td><td class="num">4.90%</td>
+            <td class="num">5.00%</td><td class="num">4.60%</td><td class="num">5.10%</td><td class="num">5.10%</td>
+            <td class="num">3.80%</td><td class="num" style="color:var(--accent1);font-weight:700">3.28%</td>
+          </tr>
+          <tr style="background:#fafafa">
+            <td style="font-weight:600;color:var(--text-muted);font-size:11px">총 구매건수</td>
+            <td class="num">1,073</td><td class="num">1,063</td><td class="num">1,865</td><td class="num">1,254</td>
+            <td class="num">1,179</td><td class="num">647</td><td class="num">855</td><td class="num">736</td>
+            <td class="num">400</td><td class="num" style="color:var(--accent1);font-weight:700">50</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--text-muted);font-size:11px">평균 객단가</td>
+            <td class="num">130,480</td><td class="num">128,773</td><td class="num">133,037</td><td class="num">135,472</td>
+            <td class="num">90,835</td><td class="num">100,311</td><td class="num">94,293</td><td class="num">106,730</td>
+            <td class="num">109,656</td><td class="num" style="color:var(--accent1);font-weight:700">86,973</td>
+          </tr>
+          <tr style="background:#fafafa">
+            <td style="font-weight:600;color:var(--text-muted);font-size:11px">광고비</td>
+            <td class="num">12,408,659</td><td class="num">11,658,500</td><td class="num">27,794,460</td><td class="num">26,980,497</td>
+            <td class="num">19,533,774</td><td class="num">21,776,207</td><td class="num">24,026,472</td><td class="num">23,078,322</td>
+            <td class="num">9,787,448</td><td class="num" style="color:var(--accent1);font-weight:700">3,438,111</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;color:var(--text-muted);font-size:11px">CRM 매출</td>
+            <td class="num">140,004,688</td><td class="num">136,885,910</td><td class="num">248,113,335</td><td class="num">169,881,699</td>
+            <td class="num">107,094,703</td><td class="num">64,901,514</td><td class="num">80,620,210</td><td class="num">78,553,520</td>
+            <td class="num">43,862,304</td><td class="num" style="color:var(--accent1);font-weight:700">4,348,674</td>
+          </tr>
+          <tr style="background:#fafafa">
+            <td style="font-weight:600;color:var(--text-muted);font-size:11px">ROAS</td>
+            <td class="num roas-high">1,128%</td><td class="num roas-high">1,174%</td><td class="num roas-high">893%</td><td class="num roas-high">630%</td>
+            <td class="num roas-high">548%</td><td class="num roas-low">298%</td><td class="num roas-mid">336%</td><td class="num roas-mid">340%</td>
+            <td class="num roas-mid">448%</td><td class="num roas-low" style="font-weight:700">126%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- ── 4월 KPI ── -->
+    <div style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.4px;text-transform:uppercase;margin-bottom:10px">📊 4월 주요 KPI (2주차 기준)</div>
+    <div class="kpi-grid" style="margin-bottom:24px">
+      <div class="kpi-card">
+        <div class="kpi-label">발송 모수</div>
+        <div class="kpi-value">202,914</div>
+        <div class="kpi-compare dn">▼71% vs 3월 (712,208)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">유입 / 유입률</div>
+        <div class="kpi-value">1,526건</div>
+        <div class="kpi-compare dn">유입률 0.75% ▼0.72%p</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">ROAS</div>
+        <div class="kpi-value" style="color:var(--negative)">126%</div>
+        <div class="kpi-compare dn">▼322%p vs 3월 (448%)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">매출 / 구매</div>
+        <div class="kpi-value">435만원</div>
+        <div class="kpi-compare">구매 50건 · CVR 3.28%</div>
+      </div>
+    </div>
+
+    <!-- ── 4월 캠페인 테이블 ── -->
+    <div style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.4px;text-transform:uppercase;margin-bottom:10px">📋 4월 운영 캠페인 현황 (10개 캠페인)</div>
+    <div class="table-wrap" style="margin-bottom:16px">
+      <table>
+        <thead>
+          <tr>
+            <th>캠페인명</th>
+            <th>유형</th>
+            <th style="text-align:right">발송모수</th>
+            <th style="text-align:right">비용</th>
+            <th style="text-align:right">유입</th>
+            <th style="text-align:right">유입률</th>
+            <th style="text-align:right">매출</th>
+            <th style="text-align:right">ROAS</th>
+            <th style="text-align:right">CVR</th>
+            <th style="text-align:right">구매</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>221226_알림톡_웰컴쿠폰팩발급안내</td>
+            <td><span class="badge badge-always">상시</span></td>
+            <td class="num">487</td><td class="num">3,409</td><td class="num">37</td><td class="num">7.60%</td>
+            <td class="num">401,000</td><td class="num roas-high">11,763%</td><td class="num">10.81%</td><td class="num">4</td>
+          </tr>
+          <tr>
+            <td>251217_채널메세지_주문서이탈고객</td>
+            <td><span class="badge badge-always">상시</span></td>
+            <td class="num">232</td><td class="num">5,104</td><td class="num">33</td><td class="num">14.22%</td>
+            <td class="num">381,900</td><td class="num roas-high">7,482%</td><td class="num">9.09%</td><td class="num">3</td>
+          </tr>
+          <tr>
+            <td>250724_친구톡_재구매유도_마그네슘특가</td>
+            <td><span class="badge badge-always">상시</span></td>
+            <td class="num">528</td><td class="num">18,586</td><td class="num">11</td><td class="num">2.08%</td>
+            <td class="num">157,620</td><td class="num roas-high">848%</td><td class="num">18.18%</td><td class="num">2</td>
+          </tr>
+          <tr>
+            <td style="color:var(--negative)">260107_채널메세지_등허리마사지기 ⚠️</td>
+            <td><span class="badge badge-always">상시</span></td>
+            <td class="num">122</td><td class="num">3,904</td><td class="num">4</td><td class="num">3.28%</td>
+            <td class="num">0</td><td class="num roas-low">0%</td><td class="num">0.00%</td><td class="num">0</td>
+          </tr>
+          <tr>
+            <td style="color:var(--negative)">260107_채널메세지_목어깨마사지기 ⚠️</td>
+            <td><span class="badge badge-always">상시</span></td>
+            <td class="num">207</td><td class="num">6,624</td><td class="num">7</td><td class="num">3.38%</td>
+            <td class="num">0</td><td class="num roas-low">0%</td><td class="num">0.00%</td><td class="num">0</td>
+          </tr>
+          <tr>
+            <td style="color:var(--negative)">260108_채널메세지_90일미구매고객상품추천 ⚠️</td>
+            <td><span class="badge badge-always">상시</span></td>
+            <td class="num">3,593</td><td class="num">114,976</td><td class="num">0</td><td class="num">0.00%</td>
+            <td class="num">0</td><td class="num roas-low">0%</td><td class="num">0.00%</td><td class="num">0</td>
+          </tr>
+          <tr>
+            <td>260108_채널메세지_7일관심상품추천</td>
+            <td><span class="badge badge-always">상시</span></td>
+            <td class="num">2,762</td><td class="num">60,764</td><td class="num">164</td><td class="num">5.94%</td>
+            <td class="num">458,761</td><td class="num roas-high">755%</td><td class="num">1.83%</td><td class="num">3</td>
+          </tr>
+          <tr>
+            <td>260108_채널메세지_30일미구매고객상품추천</td>
+            <td><span class="badge badge-always">상시</span></td>
+            <td class="num">1,216</td><td class="num">26,752</td><td class="num">78</td><td class="num">6.41%</td>
+            <td class="num">183,900</td><td class="num roas-high">687%</td><td class="num">2.56%</td><td class="num">2</td>
+          </tr>
+          <tr>
+            <td>250704_친구톡_장바구니5프로할인쿠폰</td>
+            <td><span class="badge badge-always">상시</span></td>
+            <td class="num">152</td><td class="num">3,344</td><td class="num">20</td><td class="num">13.16%</td>
+            <td class="num">356,116</td><td class="num roas-high">10,649%</td><td class="num">15.00%</td><td class="num">3</td>
+          </tr>
+          <tr>
+            <td>260403_채널메세지_봄맞이주말특가</td>
+            <td><span class="badge badge-once">일회성</span></td>
+            <td class="num">193,615</td><td class="num">3,194,648</td><td class="num">1,172</td><td class="num">0.61%</td>
+            <td class="num">2,409,377</td><td class="num roas-low">75%</td><td class="num">2.82%</td><td class="num">33</td>
+          </tr>
+          <tr class="subtotal">
+            <td>✅ 소계 (10개 캠페인)</td>
+            <td></td>
+            <td class="num">202,914</td><td class="num">3,438,111</td><td class="num">1,526</td><td class="num">0.75%</td>
+            <td class="num">4,348,674</td><td class="num">126%</td><td class="num">3.28%</td><td class="num">50</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 인사이트 -->
+    <div class="insight-row" style="margin-bottom:24px">
+      <div class="insight-box">
+        <div class="ibox-title">🏆 성과 상위 캠페인 (4월)</div>
+        <ul>
+          <li>웰컴쿠폰팩 알림톡 — ROAS <strong>11,763%</strong>, CVR 10.81% (초고효율 유지)</li>
+          <li>장바구니 5% 쿠폰 친구톡 — ROAS <strong>10,649%</strong>, 유입률 13.16%</li>
+          <li>주문서이탈 채널메세지 — ROAS <strong>7,482%</strong>, 유입률 14.22%</li>
+          <li>마그네슘특가 재구매 친구톡 — CVR <strong>18.18%</strong> (소규모 고전환)</li>
+        </ul>
+      </div>
+      <div class="insight-box">
+        <div class="ibox-title">⚠️ 이슈 및 점검 필요</div>
+        <ul>
+          <li>90일미구매 채널메세지 — 유입 0건, 비용 114,976원 <strong>원인 분석 지속 필요</strong></li>
+          <li>등허리마사지기 · 목어깨마사지기 채널 — 매출 0원, 비용 10,528원 소진</li>
+          <li>봄맞이주말특가 (일회성) — ROAS 75%, 대규모 발송 대비 효율 저조</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── 4월 전략 전환: 알림톡 강화 ── -->
+    <div style="border-left:3px solid var(--accent1);padding-left:16px;margin-bottom:12px">
+      <div style="font-size:13px;font-weight:700;color:var(--accent1);margin-bottom:4px">📌 4월 전략 전환 — 저비용 고효율 알림톡 강화</div>
+      <div style="font-size:12px;color:var(--text-muted)">대규모 채널메세지 대비 알림톡(웰컴쿠폰팩·장바구니 쿠폰)이 월등히 높은 ROAS · CVR 기록 → 알림톡 중심 CRM 구조로 전환하여 광고비 효율 개선 추진</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px">
+
+      <!-- 1. 마케팅 문자 비용 -->
+      <div class="insight-box" style="border-color:var(--accent1)">
+        <div class="ibox-title" style="color:var(--accent1)">1. 마케팅 문자 비용 체크 필요</div>
+        <ul>
+          <li><span class="tag tag-pending" style="flex-shrink:0">검토</span> <strong>뿌리오</strong> 단가 및 발송 조건 확인</li>
+          <li><span class="tag tag-pending" style="flex-shrink:0">검토</span> <strong>데이터라이즈</strong> 현행 비용 구조 대비 효율 비교 분석 필요</li>
+        </ul>
+      </div>
+
+      <!-- 2. 온사이트 마케팅 -->
+      <div class="insight-box" style="border-color:var(--accent2)">
+        <div class="ibox-title" style="color:var(--accent2)">2. 온사이트 마케팅 강화</div>
+        <ul>
+          <li><span class="tag tag-action" style="flex-shrink:0">추진</span> 리뉴얼 이후 온사이트 배너 및 팝업 운영 최적화 방안 수립</li>
+          <li><span class="tag tag-action" style="flex-shrink:0">추진</span> 리뉴얼 이후 스팟 특가 노출: <strong>리턴 페이지 프로모션 기획 필요</strong> <span style="color:var(--text-muted);font-size:11px">cc. @이채림_D2C팀 @김동일_D2C팀</span></li>
+          <li><span class="tag tag-pending" style="flex-shrink:0">논의</span> 온사이트 관련 세부 내용 정리 논의 추가 필요 <span style="color:var(--text-muted);font-size:11px">cc. @김동일_D2C팀</span></li>
+        </ul>
+      </div>
+
+      <!-- 3. 4월 CRM 스케줄 -->
+      <div class="insight-box" style="border-color:var(--accent3)">
+        <div class="ibox-title" style="color:var(--accent3)">3. 4월 슬룸 CRM 스케줄 확정</div>
+        <ul>
+          <li><span class="tag tag-action" style="flex-shrink:0">예정</span> <strong>목마사지베개 V2</strong> 프로 등급 쿠폰 발행 예정 <span style="color:var(--text-muted);font-size:11px">cc. @김동일_D2C팀</span></li>
+          <li><span class="tag tag-action" style="flex-shrink:0">기획</span> 최근 진행된 <strong>'라이브 완판'</strong> 마케팅 소재에 추가하여 캠페인 소재 기획</li>
+        </ul>
+      </div>
+
+      <!-- 4. 무료배송 재발급 -->
+      <div class="insight-box" style="border-color:var(--accent5)">
+        <div class="ibox-title" style="color:var(--accent5)">4. 무료배송 재발급 세그먼트 및 데이터 확인</div>
+        <ul>
+          <li><span class="tag tag-pending" style="flex-shrink:0">확인</span> 무료배송 쿠폰 소멸 고객 중 <strong>미구매 고객 데이터</strong> 추출 및 세그먼트 구성 필요</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- ── 4월 CRM 캘린더 ── -->
+    <div style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.4px;text-transform:uppercase;margin-bottom:10px;margin-top:8px">📅 4월 CRM 발송 캘린더</div>
+    <style>
+      .crm-cal { display:grid; grid-template-columns: repeat(7,1fr); gap:4px; }
+      .crm-cal-head { text-align:center; font-size:10px; font-weight:700; color:var(--text-muted); padding:6px 0; }
+      .crm-cal-head.sun { color:#c0392b; }
+      .crm-cal-head.sat { color:#2d5a8e; }
+      .crm-day { background:var(--surface); border:1px solid var(--border); border-radius:8px; min-height:90px; padding:7px 8px; font-size:10px; }
+      .crm-day.empty { background:transparent; border-color:transparent; }
+      .crm-day.today { border-color:var(--accent1); border-width:2px; }
+      .crm-day-num { font-size:11px; font-weight:700; margin-bottom:5px; color:var(--text-muted); }
+      .crm-day-num.today-num { color:var(--accent1); }
+      .crm-event { border-radius:4px; padding:3px 5px; margin-bottom:3px; font-size:10px; font-weight:500; line-height:1.4; }
+      .ev-sent { background:#e8f5e8; color:#2d7a3a; }
+      .ev-sched { background:#e8f0fb; color:#2d5a8e; }
+      .ev-promo { background:#fef3e2; color:#8e5a2d; }
+      .ev-timedeal { background:#fde8e8; color:#c0392b; }
+      .ev-retarget { background:#f0e8fb; color:#6a2d8e; }
+      .crm-tags { display:flex; flex-wrap:wrap; gap:2px; margin-top:3px; }
+      .crm-tag { font-size:9px; padding:1px 4px; border-radius:3px; background:#f0ede6; color:var(--text-muted); }
+      .crm-done { display:inline-block; font-size:9px; color:#2d7a3a; font-weight:700; margin-left:3px; }
+    </style>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;box-shadow:var(--shadow);margin-bottom:8px">
+      <div class="crm-cal">
+        <!-- 요일 헤더 -->
+        <div class="crm-cal-head sun">일</div>
+        <div class="crm-cal-head">월</div>
+        <div class="crm-cal-head">화</div>
+        <div class="crm-cal-head">수</div>
+        <div class="crm-cal-head">목</div>
+        <div class="crm-cal-head">금</div>
+        <div class="crm-cal-head sat">토</div>
+
+        <!-- 1행: 3/29~4/4 -->
+        <div class="crm-day empty"></div><!-- 일 -->
+        <div class="crm-day empty"></div><!-- 월 -->
+        <div class="crm-day empty"></div><!-- 화 -->
+        <div class="crm-day empty" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;min-height:90px;padding:7px 8px"><div class="crm-day-num" style="color:var(--text-light)">4월 1일</div></div>
+        <div class="crm-day">
+          <div class="crm-day-num">2</div>
+          <div class="crm-event ev-sent">봄맞이 힐링 주말특가 <span class="crm-done">✅</span></div>
+          <div class="crm-tags"><span class="crm-tag">전체</span><span class="crm-tag">알림톡</span></div>
+        </div>
+        <div class="crm-day empty" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;min-height:90px;padding:7px 8px"><div class="crm-day-num" style="color:var(--text-light)">3</div></div>
+        <div class="crm-day empty" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;min-height:90px;padding:7px 8px"><div class="crm-day-num" style="color:var(--text-light)">4</div></div>
+
+        <!-- 2행: 4/5~4/11 -->
+        <div class="crm-day empty"></div>
+        <div class="crm-day empty"></div>
+        <div class="crm-day empty"></div>
+        <div class="crm-day empty"></div>
+        <div class="crm-day today">
+          <div class="crm-day-num today-num">9 ← 오늘</div>
+          <div class="crm-event ev-sent">새출발케어 앵콜 마지막 <span class="crm-done">✅</span></div>
+          <div class="crm-tags"><span class="crm-tag">세그먼트</span><span class="crm-tag">브랜드메세지(1+N)</span><span class="crm-tag">와이드 이미지</span></div>
+        </div>
+        <div class="crm-day empty"></div>
+        <div class="crm-day empty"></div>
+
+        <!-- 3행: 4/12~4/18 -->
+        <div class="crm-day empty"></div>
+        <div class="crm-day">
+          <div class="crm-day-num">13</div>
+          <div class="crm-event ev-sched">목 마사지베개 V2 신제품</div>
+          <div style="font-size:9px;color:var(--text-muted);margin-bottom:2px">오후 12:00</div>
+          <div class="crm-tags"><span class="crm-tag">전체</span><span class="crm-tag">채널메세지</span><span class="crm-tag">와이드 이미지</span></div>
+        </div>
+        <div class="crm-day empty"></div>
+        <div class="crm-day empty"></div>
+        <div class="crm-day empty"></div>
+        <div class="crm-day empty"></div>
+        <div class="crm-day empty"></div>
+
+        <!-- 4행: 4/19~4/25 -->
+        <div class="crm-day empty"></div>
+        <div class="crm-day">
+          <div class="crm-day-num">20</div>
+          <div class="crm-event ev-promo">가정의달 이벤트 시작</div>
+          <div style="font-size:9px;color:var(--text-muted);margin-bottom:2px">오전 11:00</div>
+          <div class="crm-tags"><span class="crm-tag">세그먼트</span><span class="crm-tag">SMS</span><span class="crm-tag">문자</span></div>
+          <div class="crm-event ev-promo" style="margin-top:4px">가정의달 이벤트 시작</div>
+          <div style="font-size:9px;color:var(--text-muted);margin-bottom:2px">오후 12:00</div>
+          <div class="crm-tags"><span class="crm-tag">전체</span><span class="crm-tag">채널메세지</span><span class="crm-tag">와이드 리스트</span></div>
+        </div>
+        <div class="crm-day empty"></div>
+        <div class="crm-day">
+          <div class="crm-day-num">22</div>
+          <div class="crm-event ev-sched">신규회원 무료배송+30일</div>
+          <div style="font-size:9px;color:var(--text-muted);margin-bottom:2px">오전 12:00</div>
+          <div class="crm-tags"><span class="crm-tag">세그먼트</span><span class="crm-tag">브랜드메세지(1+N)</span><span class="crm-tag">와이드 이미지</span></div>
+        </div>
+        <div class="crm-day">
+          <div class="crm-day-num">23</div>
+          <div class="crm-event ev-timedeal">깜짝 타임딜 (목/어께)</div>
+          <div style="font-size:9px;color:var(--text-muted);margin-bottom:2px">오후 7:00</div>
+          <div class="crm-tags"><span class="crm-tag">전체</span><span class="crm-tag">채널메세지</span><span class="crm-tag">와이드 이미지</span></div>
+        </div>
+        <div class="crm-day empty"></div>
+        <div class="crm-day empty"></div>
+
+        <!-- 5행: 4/26~5/2 -->
+        <div class="crm-day empty"></div>
+        <div class="crm-day">
+          <div class="crm-day-num">27</div>
+          <div class="crm-event ev-promo">어버이날 선물 추천</div>
+          <div style="font-size:9px;color:var(--text-muted);margin-bottom:2px">오후 12:00</div>
+          <div class="crm-tags"><span class="crm-tag">전체</span><span class="crm-tag">채널메세지</span><span class="crm-tag">와이드 리스트</span></div>
+        </div>
+        <div class="crm-day empty"></div>
+        <div class="crm-day empty"></div>
+        <div class="crm-day">
+          <div class="crm-day-num">30</div>
+          <div class="crm-event ev-timedeal">깜짝 타임딜 (허리)</div>
+          <div style="font-size:9px;color:var(--text-muted);margin-bottom:2px">오후 7:00</div>
+          <div class="crm-tags"><span class="crm-tag">전체</span><span class="crm-tag">채널메세지</span><span class="crm-tag">와이드 이미지</span></div>
+        </div>
+        <div class="crm-day" style="background:#f9f8f5;">
+          <div class="crm-day-num" style="color:var(--text-light)">5/1</div>
+          <div class="crm-event ev-retarget">타임딜 유입 후 미구매고객</div>
+          <div style="font-size:9px;color:var(--text-muted);margin-bottom:2px">오후 12:00</div>
+          <div class="crm-tags"><span class="crm-tag">세그먼트</span><span class="crm-tag">브랜드메세지(1+N)</span><span class="crm-tag">와이드 이미지</span></div>
+        </div>
+        <div class="crm-day empty"></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:10.5px;margin-bottom:4px">
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#e8f5e8;border:1px solid #a8d8a8;display:inline-block"></span>발송 완료</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#e8f0fb;border:1px solid #b0c8f0;display:inline-block"></span>신제품/채널</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#fef3e2;border:1px solid #f0d090;display:inline-block"></span>가정의달/프로모션</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#fde8e8;border:1px solid #f0b0b0;display:inline-block"></span>깜짝 타임딜</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#f0e8fb;border:1px solid #d0b0f0;display:inline-block"></span>리타겟팅</span>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       02 UI/UX
+  ══════════════════════════════════════ -->
+  <section class="section" id="uiux">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--accent2)">02</div>
+      <h2>UI/UX 작업 현황</h2>
+    </div>
+    <!-- 반영 타임라인 -->
+    <div class="viral-block" style="margin-bottom:16px">
+      <div class="vb-header">
+        <h3>웹디자인팀 / 퍼블리싱 반영 타임라인</h3>
+      </div>
+      <div class="timeline" style="padding: 4px 0">
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--accent2)"></div>
+          <div class="tl-date" style="min-width:70px"><strong>4 / 17</strong></div>
+          <div class="tl-label">
+            <span class="badge badge-once" style="font-size:10px;margin-right:6px">P/M</span>
+            <strong>메인(홈) / 목록</strong> — 슬라이드, GNB 포함
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--text-light)"></div>
+          <div class="tl-date" style="min-width:70px">4월 말</div>
+          <div class="tl-label">
+            <span class="badge badge-once" style="font-size:10px;margin-right:6px">P/M</span>
+            <strong>상세페이지</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4/8 진행 현황 -->
+    <div style="background:#e8f5e8;border:1.5px solid #a8d8a8;border-radius:10px;padding:14px 18px;margin-bottom:12px;font-size:12.5px;">
+      <span style="font-weight:700;color:#2d7a3a">✅ 4/8 업데이트</span> &nbsp;웹디자인팀 · 웹에이전시 · 류선주님 — 시안 및 무드보드 <strong>MO 기준 확인 완료</strong>. 기존 일정에 맞춰 최대한 빠르게 진행 중.
+    </div>
+    <div style="background:#fff3e0;border:1.5px solid #f5c842;border-radius:10px;padding:12px 18px;margin-bottom:20px;font-size:12.5px;display:flex;align-items:flex-start;gap:8px">
+      <span style="flex-shrink:0">⚠️</span>
+      <span><strong>웹디자인팀 1인 인력 서브 역할 필요</strong> — 일정 내 완료를 위해 추가 지원 검토 요청</span>
+    </div>
+
+    <!-- 리뉴얼 타임라인 -->
+    <div style="font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.4px;text-transform:uppercase;margin-bottom:10px">📅 리뉴얼 타임라인 — 4월 내 메인·슬라이드(GNB)·목록·상세페이지 완료 목표</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin-bottom:16px;box-shadow:var(--shadow);overflow-x:auto">
+      <div style="min-width:660px">
+
+        <!-- 범례 -->
+        <div style="display:flex;gap:16px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)">
+          <div style="display:flex;align-items:center;gap:5px;font-size:11px"><span style="width:12px;height:12px;border-radius:3px;background:#4a7fcb;display:inline-block"></span>기획</div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:11px"><span style="width:12px;height:12px;border-radius:3px;background:#5a9e6e;display:inline-block"></span>디자인</div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:11px"><span style="width:12px;height:12px;border-radius:3px;background:#d4822a;display:inline-block"></span>수정 · 반영</div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:11px"><span style="width:12px;height:12px;border-radius:3px;background:#8e2d6b;display:inline-block"></span>마일스톤</div>
+        </div>
+
+        <!-- 주차 헤더 -->
+        <div style="display:grid;grid-template-columns:130px repeat(9,1fr);gap:2px;margin-bottom:4px">
+          <div></div>
+          <!-- 3월 -->
+          <div style="grid-column:span 5;text-align:center;font-size:10px;font-weight:700;color:#fff;background:#888;border-radius:4px;padding:3px 0">3월</div>
+          <!-- 4월 -->
+          <div style="grid-column:span 4;text-align:center;font-size:10px;font-weight:700;color:#fff;background:#2d5a8e;border-radius:4px;padding:3px 0">4월</div>
+        </div>
+        <div style="display:grid;grid-template-columns:130px repeat(9,1fr);gap:2px;margin-bottom:10px">
+          <div></div>
+          <div style="text-align:center;font-size:10px;color:var(--text-muted);font-family:'DM Mono',monospace">W1<br><span style="font-size:9px">3/1</span></div>
+          <div style="text-align:center;font-size:10px;color:var(--text-muted);font-family:'DM Mono',monospace">W2<br><span style="font-size:9px">3/8</span></div>
+          <div style="text-align:center;font-size:10px;color:var(--text-muted);font-family:'DM Mono',monospace">W3<br><span style="font-size:9px">3/15</span></div>
+          <div style="text-align:center;font-size:10px;color:var(--text-muted);font-family:'DM Mono',monospace">W4<br><span style="font-size:9px">3/22</span></div>
+          <div style="text-align:center;font-size:10px;color:var(--text-muted);font-family:'DM Mono',monospace">W5<br><span style="font-size:9px">3/29</span></div>
+          <div style="text-align:center;font-size:10px;color:var(--text-muted);font-family:'DM Mono',monospace">W6<br><span style="font-size:9px">4/5</span></div>
+          <div style="text-align:center;font-size:10px;color:#2d5a8e;font-weight:700;font-family:'DM Mono',monospace">W7<br><span style="font-size:9px">4/12</span></div>
+          <div style="text-align:center;font-size:10px;color:#8e2d6b;font-weight:700;font-family:'DM Mono',monospace">W8<br><span style="font-size:9px">4/19</span></div>
+          <div style="text-align:center;font-size:10px;color:var(--text-muted);font-family:'DM Mono',monospace">W9<br><span style="font-size:9px">4/26</span></div>
+        </div>
+
+        <!-- 행 공통 스타일 -->
+        <style>
+          .gantt-row { display:grid; grid-template-columns:130px repeat(9,1fr); gap:2px; margin-bottom:6px; align-items:center; }
+          .gantt-label { font-size:11.5px; font-weight:600; color:var(--text); padding-right:8px; }
+          .gantt-cell { height:24px; border-radius:4px; }
+          .gantt-bar { height:24px; border-radius:4px; display:flex; align-items:center; padding:0 6px; font-size:10px; font-weight:600; color:#fff; white-space:nowrap; overflow:hidden; }
+          .gantt-dot { height:24px; display:flex; align-items:center; justify-content:center; }
+          .g-plan { background:#4a7fcb; }
+          .g-design { background:#5a9e6e; }
+          .g-impl { background:#d4822a; }
+          .g-mile { background:#8e2d6b; }
+          .g-empty { background:transparent; }
+          .g-plan-light { background:#c5d8f5; }
+          .g-design-light { background:#c5e8d0; }
+        </style>
+
+        <!-- 메인+목록 기획 -->
+        <div class="gantt-row">
+          <div class="gantt-label">메인+목록<br><span style="font-size:10px;color:var(--text-muted);font-weight:400">기획</span></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="gantt-bar g-plan" style="grid-column:span 1">1차 기획</div>
+          <div class="gantt-bar g-plan" style="grid-column:span 1">2차 기획</div>
+          <div class="gantt-bar g-plan" style="grid-column:span 1">목록+GNB 기획</div>
+          <div class="gantt-bar g-plan" style="grid-column:span 1">상세 1차</div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+        </div>
+
+        <!-- 메인+목록 디자인 -->
+        <div class="gantt-row">
+          <div class="gantt-label">메인+목록<br><span style="font-size:10px;color:var(--text-muted);font-weight:400">디자인</span></div>
+          <div class="gantt-bar g-design" style="grid-column:span 2">시안 MO</div>
+          <div class="gantt-bar g-design" style="grid-column:span 1">시안 PC</div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+        </div>
+
+        <!-- 메인+목록 반영 -->
+        <div class="gantt-row">
+          <div class="gantt-label">메인+목록<br><span style="font-size:10px;color:var(--text-muted);font-weight:400">수정·반영</span></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="gantt-bar g-impl" style="grid-column:span 1">1차 시안 공유</div>
+          <div class="gantt-bar g-impl" style="grid-column:span 1">최종 컨펌</div>
+          <div class="gantt-bar g-impl" style="grid-column:span 2">1차 수정·시안공유</div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="gantt-bar g-impl" style="grid-column:span 1">⭐ 실서버 반영 P/M</div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+        </div>
+
+        <div style="border-top:1px dashed var(--border);margin:6px 0 8px"></div>
+
+        <!-- 상세페이지 디자인 -->
+        <div class="gantt-row">
+          <div class="gantt-label">상세페이지<br><span style="font-size:10px;color:var(--text-muted);font-weight:400">디자인</span></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="gantt-bar g-design" style="grid-column:span 1">시안 MO</div>
+          <div class="gantt-bar g-design" style="grid-column:span 1">시안 PC</div>
+        </div>
+
+        <!-- 상세페이지 반영 -->
+        <div class="gantt-row">
+          <div class="gantt-label">상세페이지<br><span style="font-size:10px;color:var(--text-muted);font-weight:400">수정·반영</span></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="gantt-bar g-impl" style="grid-column:span 1">최종 컨펌</div>
+        </div>
+
+        <div style="border-top:1px dashed var(--border);margin:6px 0 8px"></div>
+
+        <!-- 마일스톤 -->
+        <div class="gantt-row">
+          <div class="gantt-label" style="color:#8e2d6b">마일스톤</div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="g-empty gantt-cell"></div>
+          <div class="gantt-bar g-mile" style="grid-column:span 1;font-size:10px">4/17 P/M 반영</div>
+          <div class="gantt-bar g-mile" style="grid-column:span 1;font-size:10px">4/19 가정의달 시작</div>
+          <div class="gantt-bar g-mile" style="grid-column:span 1;font-size:10px">4/말 상세 완료</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 관련 문서 바로가기 -->
+    <div style="background:#e8f0fb;border:1.5px solid #2d5a8e;border-radius:10px;padding:14px 18px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px">
+      <span style="font-size:18px;flex-shrink:0">🎯</span>
+      <div>
+        <div style="font-weight:700;font-size:13px;color:#2d5a8e;margin-bottom:3px">최종 확정 시안 (디벨롭 중 · D/L 4월 9일)</div>
+        <a href="https://www.figma.com/design/X6S1juoqH4HXek7gnREoZd/%EC%8A%AC%EB%A3%B8_%EB%AC%B4%EB%93%9C%EB%B3%B4%EB%93%9C-MO?node-id=0-1&t=guBxqDMb4RD4TbRW-1" target="_blank"
+           style="font-size:12px;color:#2d5a8e;word-break:break-all">슬룸_무드보드-MO — Figma →</a>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <a href="https://www.figma.com/design/gbJPrFaOyGjB4mGxgJt907/1Q-%EC%8A%AC%EB%A3%B8-%EC%9B%B9-%EB%A6%AC%EB%89%B4%EC%96%BC?node-id=0-1&p=f&t=30hojMSeKZ4WyPqe-0" target="_blank"
+         style="display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--text);box-shadow:var(--shadow);transition:box-shadow 0.2s"
+         onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='var(--shadow)'">
+        <span style="font-size:20px;flex-shrink:0">🎨</span>
+        <div>
+          <div style="font-weight:700;font-size:12.5px">리뉴얼 화면 / 구조 기획안</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px">Figma →</div>
+        </div>
+      </a>
+      <a href="https://docs.google.com/spreadsheets/d/11Wi-uf0KzeqG6xUsCNhakaxC4G7W114mSFtAKGaZDPU/edit?usp=sharing" target="_blank"
+         style="display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--text);box-shadow:var(--shadow);transition:box-shadow 0.2s"
+         onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='var(--shadow)'">
+        <span style="font-size:20px;flex-shrink:0">📊</span>
+        <div>
+          <div style="font-weight:700;font-size:12.5px">리뉴얼 프로젝트 관리 / 아카이빙</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px">Google Sheets →</div>
+        </div>
+      </a>
+      <a href="https://olitteam.github.io/26uiuxrenewal.github.io/" target="_blank"
+         style="display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--text);box-shadow:var(--shadow);transition:box-shadow 0.2s"
+         onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='var(--shadow)'">
+        <span style="font-size:20px;flex-shrink:0">📄</span>
+        <div>
+          <div style="font-weight:700;font-size:12.5px">리뉴얼 기획서</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px">GitHub Pages →</div>
+        </div>
+      </a>
+      <a href="https://www.notion.so/320d64378d48800db33cf7ba85a9cb3f?v=320d64378d488008a29a000ce18f5ef3&source=copy_link" target="_blank"
+         style="display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--text);box-shadow:var(--shadow);transition:box-shadow 0.2s"
+         onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='var(--shadow)'">
+        <span style="font-size:20px;flex-shrink:0">🔧</span>
+        <div>
+          <div style="font-weight:700;font-size:12.5px">리뉴얼 퍼블리싱 진행 현황</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px">Notion →</div>
+        </div>
+      </a>
+    </div>
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       03 PDP
+  ══════════════════════════════════════ -->
+  <section class="section" id="pdp">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--accent3)">03</div>
+      <h2>PDP 준비 현황</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>단계</th>
+            <th>SKU / 작업명</th>
+            <th>주요 내용</th>
+            <th>마감 / 예정일</th>
+            <th>상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge" style="background:#fde8e8;color:#c0392b">드랍 → 전환</span></td>
+            <td><strong>훌라핏 벨트</strong></td>
+            <td>드랍 결정 → <strong>슬룸 브랜디드 콘텐츠 투입</strong>으로 전환. 기획안 정리 후 공유 예정</td>
+            <td class="num">기획안 공유 4/15</td>
+            <td><span class="tag tag-pending">기획 중</span></td>
+          </tr>
+          <tr style="background:#f0faf4">
+            <td><span class="badge" style="background:#e8f5e8;color:#2d7a3a">런칭 완료 ✅</span></td>
+            <td><strong>목 마사지베개 V2</strong></td>
+            <td>런칭 완료. 4/20 가정의달 행사 예정, 4/13 CRM 플레이 예정 → <strong>별도 얼리버드 / 할인 미진행</strong> (완판 대란 소구 섹션 추가 완료)</td>
+            <td class="num">4/13 CRM · 4/20 가정의달</td>
+            <td><span class="tag tag-action">완료</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background:#fff3e0;color:#8e5a2d">진입 준비</span></td>
+            <td><strong>허리마사지기 V3</strong></td>
+            <td>기술서 & 브리핑 기준 상품 변동사항 체크업 필요</td>
+            <td class="num">—</td>
+            <td><span class="tag tag-pending">확인 필요</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background:#fde8e8;color:#c0392b">제작 중</span></td>
+            <td><strong>허리편한케어 V1</strong><br><span style="font-size:11px;color:var(--text-muted)">키성장 소구 · 청소년 페르소나</span></td>
+            <td>청소년 페르소나 PDP 페이지 소통 중</td>
+            <td class="num">4/6 (월) D/L</td>
+            <td><span class="tag tag-issue">소통 중</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 완판 대란 소구 블록 -->
+    <div style="margin-top:20px;font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.4px;text-transform:uppercase;margin-bottom:10px">🔥 목 마사지베개 V2 — 완판 대란 소구 섹션 (CRM · 가정의달 활용)</div>
+    <img src="data:image/png;base64,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k8xs7y2EW2gjV6xk7lPhR7FSvYm1wrKjj2UsQRp+9Rtvz/wnmjnVLodVyeVd3MZnT5JpiiPpYuNBESz5JKmyVCK8iuuDuj/iHDNDRSZLGTCGAdSgxI8ELVYAqUArdRAG5JOw7o2VbICtVJstzOLkqSRYgsLt6tUWGgjI8GNu2i5ZZJVZVJzokoccK1YhlCom9zIk/wC9GPYkpv8A3RSnyE/Wi10EdrHFHPEysNJ6L81THg9KYnl21jtTJkf70SThbAGLaG2GjidqbaHJK2lD9dzEqwRw8GNu2jpZJLaxrM0qsoTZbkss/wCeof7sanaFV33ReZl2UdpSCpX6wBDugifAh2I8SRxsMYbpeH25n73yyGnJt9cxMLA3ccWoqUon4THaggiw5NM0wiYb0Lv3gg2IPeIS2qDSdISzMW5KUooPx2BBPqjoQRIOdxaj/E5b5Qr6kHFqP8TlvlCvqR0IIA5/FqP8TlvlCvqQcWo/xOW+UK+pHQggDn8Wo/xOW+UK+pBxaj/E5b5Qr6kdCCAOfxaj/E5b5Qr6kHFqP8TlvlCvqR0IIA5/FqP8TlvlCvqQcWo/xOW+UK+pHQggDn8Wo/xOW+UK+pBxaj/E5b5Qr6kdCCAOfxaj/E5b5Qr6kHFqP8TlvlCvqR0IIA5/FqP8TlvlCvqQcWo/xOW+UK+pHQggDn8Wo/xOW+UK+pBxaj/E5b5Qr6kdCCAOfxaj/E5b5Qr6kZC6iq48Glm/5XFUq3xaR+2F8EAJpSV4alOurLjquaiLbdwHYIVQQQAQQQQAQQQQAQQQQAQQQQAQQRiACMcRHlp9cInVqWo6j8UeI5sUL+I35afXBxG/LT64QQQsmhfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64OI35afXCCCFihfxG/LT64yFJPJQPwGOfANoWRR0oI0Sq1LSQo3tG+OgEEEEAEEEEAf//Z" alt="목 마사지베개 V2 완판 대란 소구" style="width:100%;border-radius:12px;display:block;">
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       04 바이럴
+  ══════════════════════════════════════ -->
+  <section class="section" id="viral">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--accent5)">04</div>
+      <h2>바이럴 현황</h2>
+      <span class="section-sub">📍 4월 주간 스프린트</span>
+    </div>
+
+    <!-- ── 4월 주요 일정 스프린트 테이블 ── -->
+    <div class="table-wrap" style="margin-bottom:24px">
+      <table>
+        <thead>
+          <tr>
+            <th>유형</th>
+            <th>항목</th>
+            <th style="text-align:right">건수</th>
+            <th>키워드</th>
+            <th style="text-align:center">오픈</th>
+            <th style="text-align:center">게재</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge" style="background:#e8f0fb;color:#2d5a8e">체험단_N블로그</span></td>
+            <td>[리뷰원정대] 목마사지베개V2 <strong>1차</strong></td>
+            <td class="num">50명</td>
+            <td style="font-size:11px;color:var(--text-muted)">온가족, 베개유목민, 청소년, 부모님선물, 교대근무</td>
+            <td style="text-align:center"><span class="tag tag-action">완료</span></td>
+            <td style="text-align:center"><span class="tag tag-action">완료</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background:#e8f0fb;color:#2d5a8e">체험단_N블로그</span></td>
+            <td>[리뷰원정대] 목마사지베개V2 <strong>2차</strong></td>
+            <td class="num">40명</td>
+            <td style="font-size:11px;color:var(--text-muted)">온가족, 베개유목민, 청소년, 부모님선물, 교대근무</td>
+            <td style="text-align:center"><span class="tag tag-pending">대기중</span></td>
+            <td style="text-align:center"><span class="tag tag-pending">대기중</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background:#e8f0fb;color:#2d5a8e">체험단_N블로그</span></td>
+            <td>[레뷰] 목마사지베개 네인플</td>
+            <td class="num">10명</td>
+            <td style="font-size:11px;color:var(--text-muted)">목이편한베개, 승모근베개, 기능성베개</td>
+            <td style="text-align:center"><span class="tag tag-action">완료</span></td>
+            <td style="text-align:center"><span class="tag tag-action">완료</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background:#e8f0fb;color:#2d5a8e">체험단_N블로그</span></td>
+            <td>[레뷰] 발편한케어V2 네인플</td>
+            <td class="num">5명</td>
+            <td style="font-size:11px;color:var(--text-muted)">해외여행, 국내여행, 기내필수템</td>
+            <td style="text-align:center"><span class="tag tag-action">완료</span></td>
+            <td style="text-align:center"><span class="tag tag-action">완료</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background:#f0e8fb;color:#6a2d8e">체험단_IG</span></td>
+            <td>레뷰 IG 체험단 — 발편한케어V2</td>
+            <td class="num">5명</td>
+            <td style="font-size:11px;color:var(--text-muted)">슬룸, 발마사지기, 발편한케어v2</td>
+            <td style="text-align:center"><span class="tag tag-action">완료</span></td>
+            <td style="text-align:center"><span class="tag tag-action">완료</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background:#e8f5f0;color:var(--accent5)">인플/직접컨택</span></td>
+            <td>[슬룸] 인플루언서 직접컨택</td>
+            <td class="num">5명</td>
+            <td style="font-size:11px;color:var(--text-muted)">목마사지베개v2, 발편한케어v2</td>
+            <td style="text-align:center"><span class="tag tag-pending">진행중</span></td>
+            <td style="text-align:center"><span class="tag tag-pending">진행중</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background:#fef3e2;color:#8e5a2d">홍보/PR</span></td>
+            <td>[슬룸] 목마사지베개V2 PR기사</td>
+            <td class="num">1건</td>
+            <td style="font-size:11px;color:var(--text-muted)">슬룸 손마사지기</td>
+            <td style="text-align:center"><span class="tag tag-action">완료</span></td>
+            <td style="text-align:center"><span class="tag tag-action">완료</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── 1. PR기사 ── -->
+    <div class="viral-block">
+      <div class="vb-header">
+        <h3>1. PR기사</h3>
+        <span class="vb-badge" style="background:#fef3e2;color:#8e5a2d">✅ 송출 완료</span>
+      </div>
+      <ul class="issue-list">
+        <li>
+          <span class="tag tag-action">완료</span>
+          <strong>20260407 / 18:00</strong> 송출 완료 — [슬룸] 목마사지베개V2 PR기사
+          <a href="#" style="color:var(--accent1);font-size:11px;margin-left:6px">🔗 기사 링크</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- ── 2. 레뷰 체험단 보고서 ── -->
+    <div class="viral-block">
+      <div class="vb-header">
+        <h3>2. 레뷰 체험단 — 보고서 성과</h3>
+      </div>
+
+      <div class="grid2" style="margin-bottom:16px">
+
+        <!-- 발편한케어v2 -->
+        <div>
+          <div class="sub-block">
+            <div class="sb-title"><span class="sb-check">✅</span> 발편한케어V2 — 여행 인플루언서 보고서</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px">
+              <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px;text-align:center">
+                <div style="font-size:9px;color:var(--text-muted);margin-bottom:3px">콘텐츠</div>
+                <div style="font-size:15px;font-weight:800;font-family:'DM Mono',monospace">5개</div>
+              </div>
+              <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px;text-align:center">
+                <div style="font-size:9px;color:var(--text-muted);margin-bottom:3px">총 조회수</div>
+                <div style="font-size:15px;font-weight:800;font-family:'DM Mono',monospace">677</div>
+              </div>
+              <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px;text-align:center">
+                <div style="font-size:9px;color:var(--text-muted);margin-bottom:3px">총 좋아요</div>
+                <div style="font-size:15px;font-weight:800;font-family:'DM Mono',monospace">271</div>
+              </div>
+            </div>
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">모바일 429회 (63%) · PC 248회 (37%) · 총 댓글 20개</div>
+            <div style="font-size:10.5px;font-weight:700;color:var(--text-muted);margin-bottom:6px">📍 SEO 상위노출</div>
+            <div style="display:flex;flex-direction:column;gap:3px">
+              <div style="display:flex;justify-content:space-between;font-size:11px;padding:3px 0;border-bottom:1px dotted var(--border)"><span>홍콩여행준비물</span><span style="color:var(--accent5);font-weight:600">블로그탭 5위</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;padding:3px 0;border-bottom:1px dotted var(--border)"><span>홍콩여행준비물리스트</span><span style="color:var(--accent5);font-weight:600">통합탭 4위</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;padding:3px 0;border-bottom:1px dotted var(--border)"><span>1박2일 해외여행</span><span style="color:var(--positive);font-weight:700">통합탭 2위</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;padding:3px 0"><span>홍콩준비물</span><span style="color:var(--accent5);font-weight:600">블로그탭 5위</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 목베개플러스 -->
+        <div>
+          <div class="sub-block">
+            <div class="sb-title"><span class="sb-check">✅</span> 목베개플러스 보고서</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px">
+              <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px;text-align:center">
+                <div style="font-size:9px;color:var(--text-muted);margin-bottom:3px">콘텐츠</div>
+                <div style="font-size:15px;font-weight:800;font-family:'DM Mono',monospace">10개</div>
+              </div>
+              <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px;text-align:center">
+                <div style="font-size:9px;color:var(--text-muted);margin-bottom:3px">총 조회수</div>
+                <div style="font-size:15px;font-weight:800;font-family:'DM Mono',monospace">953</div>
+              </div>
+              <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px;text-align:center">
+                <div style="font-size:9px;color:var(--text-muted);margin-bottom:3px">모바일 비율</div>
+                <div style="font-size:15px;font-weight:800;font-family:'DM Mono',monospace">63%</div>
+              </div>
+            </div>
+            <div style="font-size:10.5px;font-weight:700;color:var(--text-muted);margin-bottom:6px">📍 SEO 상위노출 (노출수 기준)</div>
+            <div style="display:flex;flex-direction:column;gap:3px">
+              <div style="display:flex;justify-content:space-between;font-size:11px;padding:3px 0;border-bottom:1px dotted var(--border)"><span>목베개플러스</span><span style="color:var(--positive);font-weight:700">1위 · 63건</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;padding:3px 0;border-bottom:1px dotted var(--border)"><span>직장인필수템</span><span style="color:var(--positive);font-weight:700">2위 · 53건</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;padding:3px 0;border-bottom:1px dotted var(--border)"><span>슬룸</span><span style="color:var(--accent5);font-weight:600">3위 · 48건</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;padding:3px 0"><span>마사지베개</span><span style="color:var(--text-muted);font-weight:600">4위 · 20건</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- IG 성과 -->
+      <div class="sub-block" style="background:#f3f0fb;border:1px solid #d5ccf5">
+        <div class="sb-title" style="color:#5a3a9e">📸 IG 체험단 성과 (발편한케어V2 · 4월 진행 10건)</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+          <div style="background:#fff;border:1px solid #d5ccf5;border-radius:6px;padding:8px;text-align:center">
+            <div style="font-size:9px;color:#7a5aae;margin-bottom:3px">총 인게이지먼트</div>
+            <div style="font-size:16px;font-weight:800;font-family:'DM Mono',monospace;color:#5a3a9e">112</div>
+            <div style="font-size:9px;color:#a090c0">평균 22</div>
+          </div>
+          <div style="background:#fff;border:1px solid #d5ccf5;border-radius:6px;padding:8px;text-align:center">
+            <div style="font-size:9px;color:#7a5aae;margin-bottom:3px">총 도달수</div>
+            <div style="font-size:16px;font-weight:800;font-family:'DM Mono',monospace;color:#5a3a9e">1,223</div>
+            <div style="font-size:9px;color:#a090c0">평균 244</div>
+          </div>
+          <div style="background:#fff;border:1px solid #d5ccf5;border-radius:6px;padding:8px;text-align:center">
+            <div style="font-size:9px;color:#7a5aae;margin-bottom:3px">총 노출수</div>
+            <div style="font-size:16px;font-weight:800;font-family:'DM Mono',monospace;color:#5a3a9e">13,765</div>
+            <div style="font-size:9px;color:#a090c0">평균 2,753</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 3. 리뷰원정대 ── -->
+    <div class="viral-block">
+      <div class="vb-header">
+        <h3>3. 리뷰원정대 — 목마사지베개V2</h3>
+      </div>
+      <div class="grid2">
+        <!-- 1차 -->
+        <div class="sub-block">
+          <div class="sb-title"><span class="sb-check">✅</span> 목마사지베개V2 1차 (50명)</div>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent5)"></div><div class="tl-date">03.13–03.19</div><div class="tl-label">캠페인 기간</div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent5)"></div><div class="tl-date">04.07</div><div class="tl-label">콘텐츠 업로드 완료</div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent1)"></div><div class="tl-date">04.08</div><div class="tl-label"><strong>44/50명 아카이빙 완료</strong></div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent1)"></div><div class="tl-date">04.09</div><div class="tl-label"><strong>보고서 작성</strong></div></div>
+          </div>
+          <div style="margin-top:8px;font-size:11.5px;background:#e8f5f0;border-radius:6px;padding:8px 10px;color:#2d7a5a;border:1px solid #b0ddd0">
+            1팀 소스 활용 → <strong>특정 직업군 이미지</strong> 소재 활용 예정
+          </div>
+          <a href="#" style="display:inline-block;margin-top:8px;font-size:11px;color:var(--accent1)">🔗 [vial] 체험단 링크</a>
+        </div>
+
+        <!-- 2차 -->
+        <div class="sub-block">
+          <div class="sb-title"><span class="sb-check">🔄</span> 목마사지베개V2 2차 (40명)</div>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent5)"></div><div class="tl-date">04.01–04.07</div><div class="tl-label">캠페인 신청·모집</div></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent1)"></div><div class="tl-date">04.08</div><div class="tl-label"><strong>선정자 발표</strong></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">04.09–04.17</div><div class="tl-label">리뷰 등록기간</div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">04.18</div><div class="tl-label">캠페인 결과발표</div></div>
+          </div>
+          <div style="margin-top:10px;font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px">타겟 배분 (40명)</div>
+          <div style="display:flex;flex-wrap:wrap;gap:5px">
+            <span class="inf-chip" style="background:#f3f0fb;border-color:#d5ccf5;color:#5a3a9e">청소년 10명</span>
+            <span class="inf-chip" style="background:#f3f0fb;border-color:#d5ccf5;color:#5a3a9e">직업군 15명</span>
+            <span class="inf-chip" style="background:#f3f0fb;border-color:#d5ccf5;color:#5a3a9e">부모님선물 15명</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 4. 슬룸X소셜플랜 + 리뷰 업데이트 ── -->
+    <div class="viral-block">
+      <div class="vb-header">
+        <h3>4. [슬룸 × 소셜플랜] 바이럴 소스 수급 & 리뷰 업데이트</h3>
+      </div>
+      <div class="grid2">
+        <div class="sub-block">
+          <div class="sb-title"><span class="sb-check">🔄</span> 목마사지베개V2 소스 수급</div>
+          <ul class="issue-list">
+            <li>
+              <span class="tag tag-pending">예정</span>
+              김가람 — 50대 지인 섭외 완료, 여행 일정으로 인해 <strong>차주 내 전달</strong> 예정
+            </li>
+          </ul>
+        </div>
+        <div class="sub-block">
+          <div class="sb-title"><span class="sb-check">📝</span> 목마사지베개V2 리뷰 업데이트</div>
+          <ul class="issue-list">
+            <li>
+              <span class="tag tag-action">운영 중</span>
+              일 <strong>200건</strong> (포토 3건 + 일반리뷰 197건) — 적정선 맞춰 데일리 업로드
+            </li>
+          </ul>
+          <a href="#" style="display:inline-block;margin-top:8px;font-size:11px;color:var(--accent1)">🔗 [슬룸] 목마사지베개V2 리뷰 현황 시트</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 5. IG 개인컨택 ── -->
+    <div class="viral-block">
+      <div class="vb-header">
+        <h3>5. IG 인플루언서 개인컨택</h3>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+
+        <!-- 발편한케어v2 -->
+        <div class="sub-block">
+          <div class="sb-title"><span class="sb-check">✅</span> 발편한케어V2</div>
+          <ul class="issue-list">
+            <li><span class="tag tag-pending" style="flex-shrink:0">예정</span> <strong>규린</strong> — 이번 주 촬영 후 업로드 일정 전달 예정</li>
+            <li><span class="tag tag-pending" style="flex-shrink:0">예정</span> <strong>김단비</strong> — 금일 제품 수령 후 업로드 일정 재전달 예정</li>
+            <li><span class="tag tag-action" style="flex-shrink:0">확정</span> <strong>김창권</strong> — 4/14 촬영 → 4/16 or 19 업로드</li>
+          </ul>
+        </div>
+
+        <!-- 목마사지베개v2 -->
+        <div class="sub-block">
+          <div class="sb-title"><span class="sb-check">✅</span> 목마사지베개V2</div>
+          <ul class="issue-list">
+            <li><span class="tag tag-pending" style="flex-shrink:0">예정</span> <strong>오룸</strong> — 4/13(월) 사전공유본 전달</li>
+            <li><span class="tag tag-pending" style="flex-shrink:0">예정</span> <strong>cozyroom</strong> — 이번 주 내 업로드 예정</li>
+            <li><span class="tag tag-action" style="flex-shrink:0">진행</span> <strong>unijeni</strong> (cozyroom 추천) — 원본·클린본 제공, 2차 활용 동의 · 30만원</li>
+          </ul>
+        </div>
+
+        <!-- 골반마사지기v2 -->
+        <div class="sub-block">
+          <div class="sb-title"><span class="sb-check">🔄</span> 골반마사지기V2</div>
+          <ul class="issue-list">
+            <li><span class="tag tag-pending" style="flex-shrink:0">대기</span> <strong>슬슬</strong> — 가이드 제작 후 전달 예정</li>
+            <li><span class="tag tag-pending" style="flex-shrink:0">대기</span> <strong>디자이너맘</strong> — 현재 해외 거주 · 차주 한국 방문 예정</li>
+            <li><span class="tag tag-pending" style="flex-shrink:0">대기</span> <strong>전슬기</strong> — 가이드 제작 후 전달 예정</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 6. 골반마사지기 4월 바이럴 기획 ── -->
+    <div class="viral-block">
+      <div class="vb-header">
+        <h3>6. 골반마사지기 — 4월 바이럴 기획</h3>
+        <span class="vb-badge" style="background:#fde8e8;color:#c0392b">🚀 런칭 D-DAY 5/11</span>
+      </div>
+
+      <!-- KPI 요약 -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px">
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:var(--text-muted);margin-bottom:3px">바이럴 원정대</div>
+          <div style="font-size:18px;font-weight:800;font-family:'DM Mono',monospace;color:var(--accent5)">50인</div>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:var(--text-muted);margin-bottom:3px">블로그 동시 발행</div>
+          <div style="font-size:18px;font-weight:800;font-family:'DM Mono',monospace;color:var(--accent5)">15~20개</div>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:var(--text-muted);margin-bottom:3px">1개월 리뷰 KPI</div>
+          <div style="font-size:18px;font-weight:800;font-family:'DM Mono',monospace;color:var(--accent3)">500건</div>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:var(--text-muted);margin-bottom:3px">최종 리뷰 KPI</div>
+          <div style="font-size:18px;font-weight:800;font-family:'DM Mono',monospace;color:var(--negative)">1,000건</div>
+        </div>
+      </div>
+
+      <!-- 3 Phase 타임라인 -->
+      <div style="font-size:10.5px;font-weight:700;color:var(--text-muted);letter-spacing:0.3px;text-transform:uppercase;margin-bottom:8px">📅 실행 타임라인</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">
+        <div style="background:#edf4ff;border:1px solid #b8d0f5;border-radius:8px;padding:12px">
+          <div style="font-size:10px;font-weight:700;color:#2d5a8e;margin-bottom:4px">PHASE 1 · D-30 ~ D-1</div>
+          <div style="font-size:11px;font-weight:700;margin-bottom:6px">런칭 전 준비기</div>
+          <div style="font-size:10.5px;color:var(--text-muted);line-height:1.8">
+            W1 (3/23~3/29) 콘텐츠 기획 · 소재 방향 확정<br>
+            W2 (3/30~4/6) 원정대 50인 모집 & 브리핑<br>
+            W3 (4/7~4/13) 샘플 수령(4/10) · 제품 발송<br>
+            W4 (4/14~4/26) 원고 리뷰 · 발화 준비 완료
+          </div>
+        </div>
+        <div style="background:#fde8e8;border:1px solid #f5b0a0;border-radius:8px;padding:12px">
+          <div style="font-size:10px;font-weight:700;color:#c0392b;margin-bottom:4px">PHASE 2 · 5/11 D-DAY ~ D+7</div>
+          <div style="font-size:11px;font-weight:700;margin-bottom:6px">런칭 · 전채널 동시 발화 🔥</div>
+          <div style="font-size:10.5px;color:var(--text-muted);line-height:1.8">
+            오전 10:00 — 블로그 15개+ 일제 발행<br>
+            인스타그램 · 릴스 동시 발행<br>
+            댓글 품앗이 바이럴 즉시 시작<br>
+            2시간마다 검색 모니터링
+          </div>
+        </div>
+        <div style="background:#e8f5e8;border:1px solid #a8d8a8;border-radius:8px;padding:12px">
+          <div style="font-size:10px;font-weight:700;color:#2d7a3a;margin-bottom:4px">PHASE 3 · D+8 ~ M3</div>
+          <div style="font-size:11px;font-weight:700;margin-bottom:6px">리뷰 누적 · KPI 달성</div>
+          <div style="font-size:10.5px;color:var(--text-muted);line-height:1.8">
+            M1 (5월) 리뷰 500건 · ROAS 200%+<br>
+            UGC 2차 확산 루프 구축<br>
+            고반응 TOP 10 추가 확산<br>
+            M3 (7월) 리뷰 1,000건 최종 KPI
+          </div>
+        </div>
+      </div>
+
+      <!-- 원정대 세그먼트 + 인플루언서 DB -->
+      <div class="grid2" style="margin-bottom:16px">
+        <div>
+          <div style="font-size:10.5px;font-weight:700;color:var(--text-muted);letter-spacing:0.3px;text-transform:uppercase;margin-bottom:8px">👥 원정대 5개 세그먼트 (50인)</div>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:6px;padding:7px 10px;font-size:11.5px"><span>💃 골반교정 경험자</span><span class="inf-chip" style="font-size:10px">10명</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:6px;padding:7px 10px;font-size:11.5px"><span>🤱 출산 산모 (1~24개월)</span><span class="inf-chip" style="font-size:10px">10명</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:6px;padding:7px 10px;font-size:11.5px"><span>💉 직업군 (소셜플랜·IG)</span><span class="inf-chip" style="font-size:10px">10명</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:6px;padding:7px 10px;font-size:11.5px"><span>👩‍🦳 5060 여성</span><span class="inf-chip" style="font-size:10px">10명</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:6px;padding:7px 10px;font-size:11.5px"><span>💑 커플·신혼 선물</span><span class="inf-chip" style="font-size:10px">10명</span></div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:10.5px;font-weight:700;color:var(--text-muted);letter-spacing:0.3px;text-transform:uppercase;margin-bottom:8px">📸 IG 인플루언서 DB (총 15인)</div>
+          <div style="background:var(--surface2);border-radius:8px;overflow:hidden;border:1px solid var(--border)">
+            <table style="width:100%;font-size:11px;border-collapse:collapse">
+              <thead>
+                <tr style="background:#f0ede6">
+                  <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--text-muted);font-size:10px">계정</th>
+                  <th style="padding:6px 8px;text-align:left;font-weight:600;color:var(--text-muted);font-size:10px">소개</th>
+                  <th style="padding:6px 8px;text-align:right;font-weight:600;color:var(--text-muted);font-size:10px">팔로워</th>
+                  <th style="padding:6px 8px;text-align:center;font-weight:600;color:var(--text-muted);font-size:10px">상태</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:5px 8px">정홈</td><td style="padding:5px 8px;color:var(--text-muted)">출산맘</td><td style="padding:5px 8px;text-align:right;font-family:'DM Mono',monospace">1.2만</td><td style="padding:5px 8px;text-align:center"><span class="tag tag-pending" style="font-size:9px">대기</span></td></tr>
+                <tr style="border-top:1px solid var(--border);background:#fafafa"><td style="padding:5px 8px">헤이솔</td><td style="padding:5px 8px;color:var(--text-muted)">출산맘</td><td style="padding:5px 8px;text-align:right;font-family:'DM Mono',monospace">3.6만</td><td style="padding:5px 8px;text-align:center"><span class="tag tag-pending" style="font-size:9px">대기</span></td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:5px 8px">무이</td><td style="padding:5px 8px;color:var(--text-muted)">디지털 크리에이터</td><td style="padding:5px 8px;text-align:right;font-family:'DM Mono',monospace">7,159</td><td style="padding:5px 8px;text-align:center"><span class="tag tag-pending" style="font-size:9px">대기</span></td></tr>
+                <tr style="border-top:1px solid var(--border);background:#fafafa"><td style="padding:5px 8px">수아랑</td><td style="padding:5px 8px;color:var(--text-muted)">육아 인플루언서</td><td style="padding:5px 8px;text-align:right;font-family:'DM Mono',monospace">9,448</td><td style="padding:5px 8px;text-align:center"><span class="tag tag-pending" style="font-size:9px">대기</span></td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:5px 8px">바이유리</td><td style="padding:5px 8px;color:var(--text-muted)">이재맘·블로거</td><td style="padding:5px 8px;text-align:right;font-family:'DM Mono',monospace">1만</td><td style="padding:5px 8px;text-align:center"><span class="tag tag-pending" style="font-size:9px">대기</span></td></tr>
+                <tr style="border-top:1px solid var(--border);background:#fafafa"><td style="padding:5px 8px">전슬기</td><td style="padding:5px 8px;color:var(--text-muted)">출산맘</td><td style="padding:5px 8px;text-align:right;font-family:'DM Mono',monospace">5,949</td><td style="padding:5px 8px;text-align:center"><span class="tag tag-pending" style="font-size:9px">대기</span></td></tr>
+                <tr style="border-top:1px solid var(--border)"><td style="padding:5px 8px">+ 5인</td><td style="padding:5px 8px;color:var(--text-muted)">슬슬·디자이너맘·나라우리 외</td><td style="padding:5px 8px;text-align:right;font-family:'DM Mono',monospace">—</td><td style="padding:5px 8px;text-align:center"><span class="tag tag-pending" style="font-size:9px">대기</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="margin-top:6px;font-size:10.5px;color:var(--text-muted);background:#f3f0fb;border-radius:6px;padding:7px 10px;border:1px solid #d5ccf5">
+            💉 직업군 소셜플랜 4인 별도 진행 — 물리치료사·간호사·필라테스강사·요가강사
+          </div>
+        </div>
+      </div>
+
+      <!-- IG 가이드 2종 -->
+      <div style="font-size:10.5px;font-weight:700;color:var(--text-muted);letter-spacing:0.3px;text-transform:uppercase;margin-bottom:8px">📋 IG 콘텐츠 가이드 2종</div>
+      <div class="grid2">
+        <div style="background:#fff8f0;border:1.5px solid #f5c842;border-radius:10px;padding:14px 16px">
+          <div style="font-weight:700;font-size:12.5px;margin-bottom:6px">🧘 요가·필라테스 강사 ver.</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-style:italic">"수업 끝나면 다 쓰더라고요 — 수업 후 5분 골반 케어 루틴"</div>
+          <ul class="issue-list" style="font-size:11.5px">
+            <li><span class="tag tag-action" style="flex-shrink:0">컨셉</span> 강사 커뮤니티에서 퍼지는 정보처럼 — 대세감 + 리얼 체험</li>
+            <li><span class="tag tag-pending" style="flex-shrink:0">구성</span> Reels 7개 + Feed 4개 · 40~60초 · 9:16 세로</li>
+            <li><span class="tag tag-action" style="flex-shrink:0">소구</span> 전방경사·장요근 피로 → 수업 후 5분 루틴으로 해결</li>
+            <li><span class="tag tag-action" style="flex-shrink:0">훅</span> "센터 강사들 라커룸에 이게 하나씩 있다는 거 알고 계셨어요?"</li>
+          </ul>
+        </div>
+        <div style="background:#f0f4fb;border:1.5px solid #c5d8f5;border-radius:10px;padding:14px 16px">
+          <div style="font-weight:700;font-size:12.5px;margin-bottom:6px">🏥 간호사·물리치료사 ver.</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-style:italic">"환자분들께 추천하다가 나도 직접 써봤는데 — 달랐어요"</div>
+          <ul class="issue-list" style="font-size:11.5px">
+            <li><span class="tag tag-action" style="flex-shrink:0">컨셉</span> 역방향 추천 — 전문가 검증 신뢰 루트 활용</li>
+            <li><span class="tag tag-pending" style="flex-shrink:0">구성</span> Reels 7개 + Feed 3개 · 근무복(스크럽) 착용 장면 필수</li>
+            <li><span class="tag tag-action" style="flex-shrink:0">소구</span> "원리가 맞더라고요" — 의료 지식 기반 전문가 추천</li>
+            <li><span class="tag tag-action" style="flex-shrink:0">훅</span> "물리치료사가 몰래 쓰는 꿀템, 공개합니다."</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+</div><!-- /container -->
+
+</body>
+</html>
